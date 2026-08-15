@@ -15,9 +15,18 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     login_manager.init_app(app)
 
-    # Blueprints registered here as each one is built.
-    # from app.auth.routes import auth_bp
-    # app.register_blueprint(auth_bp)
+    with app.app_context():
+        from app import models  # noqa: F401 — registers tables with SQLAlchemy metadata
+
+    from app.auth.routes import auth_bp
+    from app.onboarding.routes import onboarding_bp
+    from app.dashboard.routes import dashboard_bp
+    from app.ai.routes import ai_bp
+
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(onboarding_bp)
+    app.register_blueprint(dashboard_bp)
+    app.register_blueprint(ai_bp)
 
     @app.route("/health")
     def health():
