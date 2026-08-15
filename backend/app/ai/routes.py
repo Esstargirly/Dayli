@@ -1,10 +1,10 @@
 from datetime import datetime, date, timedelta
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, render_template
 from flask_login import login_required, current_user
 
 from app.extensions import db
 from app.models import Plan, Task, ChatLog
-from app.xp_rules import base_xp_for_category
+from app.xp_rules import base_xp_for_category, BONUS_XP
 from app.ai.gemini_client import generate_daily_plan, adjust_plan
 
 ai_bp = Blueprint("ai", __name__, url_prefix="/ai")
@@ -28,6 +28,16 @@ def _update_streak():
     elif current_user.last_active_date == today - timedelta(days=1):
         current_user.current_streak += 1
     else:
+        if current_user.last_active_date is not None:
+            # streak was broken (not their very first day) — reward coming back
+            bonus = BONUS_XP["recovery_bonus"]
+            db.session.add(XPEvent(
+                user_id=current_user.id,
+                task_id=None,
+                amount=bonus,
+                reason="recovery_bonus",
+            ))
+            current_user.xp_total += bonus
         current_user.current_streak = 1  # streak broken or first day
 
     current_user.longest_streak = max(current_user.longest_streak, current_user.current_streak)
@@ -129,6 +139,7 @@ def chat():
         updated_task_summaries.append({
             "task_id": task.id,
             "title": task.title,
+            "original_time": task.original_time.strftime("%H:%M") if task.original_time else None,
             "scheduled_time": task.scheduled_time.strftime("%H:%M") if task.scheduled_time else None,
             "duration_minutes": task.duration_minutes,
             "status": task.status,
@@ -149,3 +160,18 @@ def chat():
         "message": ai_message,
         "updated_tasks": updated_task_summaries,
     })
+
+
+@ai_bp.route("/", methods=["GET"])
+@login_required
+def chat_page():
+    today_plan = Plan.query.filter_by(user_id=current_user.id, plan_date=date.today()).first()
+    messages = []
+    if today_plan:
+        messages = (
+            ChatLog.query
+            .filter_by(user_id=current_user.id, plan_id=today_plan.id)
+            .order_by(ChatLog.created_at.asc())
+            .all()
+        )
+    return render_template("ai/chat.html", messages=messages)

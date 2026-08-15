@@ -5,16 +5,7 @@ from app.extensions import db
 
 onboarding_bp = Blueprint("onboarding", __name__, url_prefix="/onboarding")
 
-# Order matters — this drives which question shows on which step.
-STEPS = [
-    "goals",
-    "current_habits",
-    "target_habits",
-    "schedule",
-    "struggles",
-    "preferred_activities",
-    "extra_notes",
-]
+STEPS = ["goals", "current_routine", "struggles", "activities"]
 
 
 @onboarding_bp.route("/")
@@ -53,31 +44,23 @@ def step(step_name):
 
 
 def _save_step(step_name, form):
-    """Maps each onboarding step's form data onto the User model."""
     if step_name == "goals":
         current_user.goals = form.getlist("goals")
-    elif step_name == "current_habits":
-        current_user.current_habits = form.getlist("current_habits")
-    elif step_name == "target_habits":
         current_user.target_habits = form.getlist("target_habits")
-    elif step_name == "schedule":
+    elif step_name == "current_routine":
+        current_user.current_habits = form.getlist("current_habits")
         current_user.schedule = {
             "wake_time": form.get("wake_time", ""),
             "sleep_time": form.get("sleep_time", ""),
-            "free_hours": form.get("free_hours", ""),
         }
     elif step_name == "struggles":
-        current_user.struggles = form.getlist("struggles")
-    elif step_name == "preferred_activities":
-        current_user.preferred_activities = form.getlist("preferred_activities")
-    elif step_name == "extra_notes":
+        current_user.struggles = form.getlist("derailment")
         current_user.extra_notes = form.get("extra_notes", "").strip()
+    elif step_name == "activities":
+        current_user.preferred_activities = form.getlist("preferred_activities")
 
 
 @onboarding_bp.route("/generating")
 @login_required
 def generating():
-    # Renders a short "creating your day..." screen, then the frontend JS
-    # calls the AI plan-generation endpoint (built in app/ai/routes.py)
-    # and redirects to the dashboard once the plan is ready.
     return render_template("onboarding/generating.html")

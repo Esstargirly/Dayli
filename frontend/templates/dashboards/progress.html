@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dayli - XP &amp; Progress</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#ffe172","outline": "#7d7765","on-tertiary": "#ffffff","surface": "#fff9e9",
+                    "primary": "#705d00","on-primary": "#ffffff","tertiary-fixed": "#faddc6","surface-dim": "#dfdaca",
+                    "on-tertiary-fixed": "#27180b","on-surface": "#1d1c12","on-surface-variant": "#4c4637",
+                    "inverse-surface": "#333026","secondary": "#546348","error-container": "#ffdad6","tertiary": "#6f5a49",
+                    "inverse-on-surface": "#f6f0e1","primary-fixed-dim": "#e1c559","surface-container-low": "#f9f3e3",
+                    "on-primary-container": "#715e00","surface-tint": "#705d00","on-secondary-container": "#58674c",
+                    "surface-container-highest": "#e8e2d3","on-tertiary-container": "#705b49",
+                    "on-secondary-fixed-variant": "#3c4b32","on-tertiary-fixed-variant": "#564332",
+                    "on-background": "#1d1c12","on-error": "#ffffff","surface-bright": "#fff9e9",
+                    "outline-variant": "#cec6b1","inverse-primary": "#e1c559","secondary-fixed-dim": "#bbccab",
+                    "background": "#fff9e9","primary-container": "#f6d96b","surface-container-high": "#eee8d8",
+                    "surface-container-lowest": "#ffffff","on-secondary": "#ffffff","on-primary-fixed-variant": "#544600",
+                    "surface-container": "#f3eede","tertiary-container": "#f2d5bf","on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ddc2ac","error": "#ba1a1a","secondary-container": "#d4e5c3",
+                    "on-primary-fixed": "#221b00","secondary-fixed": "#d7e8c6","on-secondary-fixed": "#121f0a",
+                    "surface-variant": "#e8e2d3"
+            },
+            "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+            "spacing": {"container-padding": "20px","xs": "4px","lg": "24px","sm": "8px","gutter": "16px","xl": "32px","unit": "4px","md": "16px"},
+            "fontFamily": {
+                    "label-md": ["Be Vietnam Pro"],"body-md": ["Be Vietnam Pro"],"body-lg": ["Be Vietnam Pro"],
+                    "label-sm": ["Be Vietnam Pro"],"headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],"headline-lg": ["Plus Jakarta Sans"],"display": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                    "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                    "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                    "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                    "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                    "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                    "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; font-size: 24px;
+            line-height: 1; letter-spacing: normal; text-transform: none; display: inline-block; white-space: nowrap;
+            word-wrap: normal; direction: ltr; -webkit-font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased;
+        }
+        .progress-bar-fill { transition: width 1.2s ease-out; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
+        .badge-float { animation: float 4s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col pt-16 pb-24 md:pb-0 md:pt-0">
+<header class="md:hidden flex justify-between items-center px-container-padding w-full h-16 bg-surface shadow-sm fixed top-0 z-50">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-sm font-bold">{{ current_user.name[0]|upper }}</div>
+<h1 class="font-headline-md text-headline-md text-primary">Your Progress</h1>
+</div>
+</header>
+<nav class="hidden md:flex justify-between items-center px-xl py-md bg-surface shadow-sm sticky top-0 z-50">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-md font-bold">{{ current_user.name[0]|upper }}</div>
+<h1 class="font-headline-md text-headline-md text-primary">Dayli</h1>
+</div>
+<div class="flex gap-lg">
+<a class="flex items-center gap-xs text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-full" href="{{ url_for('dashboard.home') }}">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-xs text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-full" href="{{ url_for('ai.chat_page') }}">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-md text-label-md">AI Chat</span>
+</a>
+<a class="flex items-center gap-xs bg-primary-container text-on-primary-container font-bold px-4 py-2 rounded-full shadow-[0px_4px_12px_rgba(74,56,40,0.05)]" href="{{ url_for('dashboard.progress') }}">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-md text-label-md">Progress</span>
+</a>
+</div>
+</nav>
+
+<main class="flex-grow px-container-padding py-lg max-w-4xl mx-auto w-full flex flex-col gap-lg">
+<section class="text-center md:text-left mb-sm">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">Your Progress</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Keep up the great work! You're making steady strides.</p>
+</section>
+
+<div class="grid grid-cols-1 md:grid-cols-12 gap-md md:gap-lg">
+<div class="col-span-1 md:col-span-8 bg-surface-container-lowest rounded-xl p-container-padding shadow-[0px_4px_12px_rgba(74,56,40,0.05)] flex flex-col justify-center">
+<div class="flex justify-between items-end mb-sm">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider block mb-xs">Current Level</span>
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-sm">
+                            Level {{ level_info.level }} <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">star</span>
+</h3>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-on-surface font-bold">{{ xp_total }} XP</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant block">{{ level_info.xp_into_level }} / 200 XP to Lvl {{ level_info.level + 1 }}</span>
+</div>
+</div>
+<div class="h-4 w-full bg-surface-variant rounded-full overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full bg-secondary rounded-full progress-bar-fill" style="width: {{ level_info.progress_pct }}%"></div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm text-center md:text-left">Just {{ level_info.xp_needed }} XP away from your next milestone!</p>
+</div>
+
+<div class="col-span-1 md:col-span-4 bg-surface-container-lowest rounded-xl p-container-padding shadow-[0px_4px_12px_rgba(74,56,40,0.05)] flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 bg-tertiary-container text-on-tertiary-container rounded-full flex items-center justify-center mb-sm badge-float shadow-sm">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+<h3 class="font-display text-display text-primary leading-none mb-xs">{{ current_streak }}</h3>
+<span class="font-label-md text-label-md text-on-surface font-bold uppercase tracking-widest">Day Streak</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">{% if current_streak > 0 %}You're on fire! Keep it burning.{% else %}Complete a task today to start a streak.{% endif %}</p>
+</div>
+
+<div class="col-span-1 md:col-span-12 bg-surface-container-lowest rounded-xl p-container-padding shadow-[0px_4px_12px_rgba(74,56,40,0.05)]">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-md">This Week</h4>
+<div class="flex justify-between items-center bg-surface-container-low rounded-lg p-md">
+{% for day in week_days %}
+<div class="flex flex-col items-center gap-xs">
+{% if day.completed %}
+<span class="font-label-sm text-label-sm text-on-surface-variant">{{ day.label }}</span>
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+{% elif day.is_today %}
+<span class="font-label-sm text-label-sm text-on-surface font-bold">{{ day.label }}</span>
+<div class="w-10 h-10 rounded-full border-2 border-secondary bg-surface-container-lowest flex items-center justify-center shadow-sm relative">
+<span class="material-symbols-outlined text-secondary">edit</span>
+<div class="absolute -bottom-2 w-1.5 h-1.5 bg-secondary rounded-full"></div>
+</div>
+{% else %}
+<span class="font-label-sm text-label-sm text-outline-variant">{{ day.label }}</span>
+<div class="w-8 h-8 rounded-full bg-surface-variant text-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</div>
+{% endif %}
+</div>
+{% endfor %}
+</div>
+<div class="mt-md text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">You've logged <strong class="text-on-surface font-bold">{{ days_logged_this_week }} day{{ 's' if days_logged_this_week != 1 else '' }}</strong> this week.</p>
+</div>
+</div>
+
+<div class="col-span-1 md:col-span-12 bg-surface-container-lowest rounded-xl p-container-padding shadow-[0px_4px_12px_rgba(74,56,40,0.05)]">
+<div class="flex justify-between items-center mb-md">
+<h4 class="font-headline-md text-headline-md text-on-surface">Badges</h4>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center text-center border {% if has_bounced_back %}border-outline-variant/30{% else %}border-dashed border-outline-variant opacity-70{% endif %}">
+<div class="w-16 h-16 {% if has_bounced_back %}bg-primary-container text-on-primary-container{% else %}bg-surface-container-highest text-outline{% endif %} rounded-full flex items-center justify-center mb-sm shadow-sm">
+<span class="material-symbols-outlined text-[32px]" {% if has_bounced_back %}style="font-variation-settings: 'FILL' 1;"{% endif %}>{% if has_bounced_back %}psychology_alt{% else %}lock{% endif %}</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Bounced Back</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-xs">Logged after a missed day</span>
+</div>
+
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center text-center border {% if has_early_bird %}border-outline-variant/30{% else %}border-dashed border-outline-variant opacity-70{% endif %}">
+<div class="w-16 h-16 {% if has_early_bird %}bg-secondary-container text-on-secondary-container{% else %}bg-surface-container-highest text-outline{% endif %} rounded-full flex items-center justify-center mb-sm shadow-sm">
+<span class="material-symbols-outlined text-[32px]" {% if has_early_bird %}style="font-variation-settings: 'FILL' 1;"{% endif %}>{% if has_early_bird %}nature{% else %}lock{% endif %}</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Early Bird</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-xs">Logged before 8 AM</span>
+</div>
+
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center text-center border {% if has_perfect_day %}border-outline-variant/30{% else %}border-dashed border-outline-variant opacity-70{% endif %}">
+<div class="w-16 h-16 {% if has_perfect_day %}bg-tertiary-container text-on-tertiary-container{% else %}bg-surface-container-highest text-outline{% endif %} rounded-full flex items-center justify-center mb-sm shadow-sm">
+<span class="material-symbols-outlined text-[32px]" {% if has_perfect_day %}style="font-variation-settings: 'FILL' 1;"{% endif %}>{% if has_perfect_day %}emoji_events{% else %}lock{% endif %}</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Perfect Day</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-xs">Completed every task in a day</span>
+</div>
+
+<div class="bg-surface-container-low rounded-lg p-md flex flex-col items-center text-center border {% if longest_streak >= 30 %}border-outline-variant/30{% else %}border-dashed border-outline-variant opacity-70{% endif %}">
+<div class="w-16 h-16 {% if longest_streak >= 30 %}bg-primary-container text-on-primary-container{% else %}bg-surface-container-highest text-outline{% endif %} rounded-full flex items-center justify-center mb-sm shadow-sm">
+<span class="material-symbols-outlined text-[32px]" {% if longest_streak >= 30 %}style="font-variation-settings: 'FILL' 1;"{% endif %}>{% if longest_streak >= 30 %}local_fire_department{% else %}lock{% endif %}</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold">30 Day Streak</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-xs">Keep going!</span>
+</div>
+
+</div>
+</div>
+</div>
+</main>
+
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-sm bg-surface shadow-[0px_-4px_12px_rgba(74,56,40,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="{{ url_for('dashboard.home') }}">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="{{ url_for('ai.chat_page') }}">
+<span class="material-symbols-outlined mb-1">smart_toy</span>
+<span class="font-label-sm text-label-sm">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="{{ url_for('dashboard.progress') }}">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="font-label-sm text-label-sm font-bold">Progress</span>
+</a>
+</nav>
+</body></html>

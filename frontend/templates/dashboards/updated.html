@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dayli - Plan Updated</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffe172","outline": "#7d7765","on-tertiary": "#ffffff","surface": "#fff9e9",
+                        "primary": "#705d00","on-primary": "#ffffff","tertiary-fixed": "#faddc6","surface-dim": "#dfdaca",
+                        "on-tertiary-fixed": "#27180b","on-surface": "#1d1c12","on-surface-variant": "#4c4637",
+                        "inverse-surface": "#333026","secondary": "#546348","error-container": "#ffdad6","tertiary": "#6f5a49",
+                        "inverse-on-surface": "#f6f0e1","primary-fixed-dim": "#e1c559","surface-container-low": "#f9f3e3",
+                        "on-primary-container": "#715e00","surface-tint": "#705d00","on-secondary-container": "#58674c",
+                        "surface-container-highest": "#e8e2d3","on-tertiary-container": "#705b49",
+                        "on-secondary-fixed-variant": "#3c4b32","on-tertiary-fixed-variant": "#564332",
+                        "on-background": "#1d1c12","on-error": "#ffffff","surface-bright": "#fff9e9",
+                        "outline-variant": "#cec6b1","inverse-primary": "#e1c559","secondary-fixed-dim": "#bbccab",
+                        "background": "#fff9e9","primary-container": "#f6d96b","surface-container-high": "#eee8d8",
+                        "surface-container-lowest": "#ffffff","on-secondary": "#ffffff","on-primary-fixed-variant": "#544600",
+                        "surface-container": "#f3eede","tertiary-container": "#f2d5bf","on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ddc2ac","error": "#ba1a1a","secondary-container": "#d4e5c3",
+                        "on-primary-fixed": "#221b00","secondary-fixed": "#d7e8c6","on-secondary-fixed": "#121f0a",
+                        "surface-variant": "#e8e2d3"
+                    },
+                    "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+                    "spacing": {"container-padding": "20px","xs": "4px","lg": "24px","sm": "8px","gutter": "16px","xl": "32px","unit": "4px","md": "16px"},
+                    "fontFamily": {
+                        "label-md": ["Be Vietnam Pro"],"body-md": ["Be Vietnam Pro"],"body-lg": ["Be Vietnam Pro"],
+                        "label-sm": ["Be Vietnam Pro"],"headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],"headline-lg": ["Plus Jakarta Sans"],"display": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #FFF9E9; color: #1d1c12; -webkit-font-smoothing: antialiased; }
+        .fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(20px); }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .soft-shadow { box-shadow: 0px 4px 12px rgba(74, 56, 40, 0.05); }
+        .interactive-shadow:active { box-shadow: 0px 6px 16px rgba(74, 56, 40, 0.08); transform: scale(0.98); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-container-padding relative overflow-hidden bg-surface">
+<div class="absolute top-[-10%] right-[-5%] w-64 h-64 bg-primary-container opacity-20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute bottom-[-10%] left-[-5%] w-80 h-80 bg-secondary-container opacity-20 rounded-full blur-3xl pointer-events-none"></div>
+<main class="w-full max-w-md mx-auto flex flex-col items-center text-center z-10">
+<div class="fade-in-up stagger-1 mb-lg w-24 h-24 flex items-center justify-center rounded-full bg-surface-container-highest text-primary-container soft-shadow">
+<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">
+                sunny
+            </span>
+</div>
+<h1 class="fade-in-up stagger-2 font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-sm md:font-headline-lg md:text-headline-lg">
+            Your day just got updated.
+        </h1>
+<p class="fade-in-up stagger-2 font-body-md text-body-md text-on-surface-variant mb-xl max-w-xs">
+            We've reshuffled a few things to give you more breathing room. Here's your new flow.
+        </p>
+
+{% if rescheduled_tasks %}
+<div class="w-full space-y-md fade-in-up stagger-3 mb-xl text-left">
+<div class="bg-surface-container-low rounded-lg p-container-padding opacity-70 border border-outline-variant/30">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-outline-variant text-[18px]">history</span>
+<span class="font-label-sm text-label-sm text-outline-variant uppercase tracking-wider">Previous Plan</span>
+</div>
+{% for task in rescheduled_tasks %}
+<div class="flex justify-between items-center{% if not loop.last %} mb-xs{% endif %}">
+<span class="font-body-md text-body-md text-on-surface-variant line-through">{{ task.title }}</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">{{ task.original_time.strftime('%I:%M %p') }}</span>
+</div>
+{% endfor %}
+</div>
+
+<div class="flex justify-center -my-xs z-10 relative">
+<div class="bg-surface rounded-full p-1 soft-shadow">
+<span class="material-symbols-outlined text-outline text-[20px]">arrow_downward</span>
+</div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-lg p-container-padding soft-shadow border border-secondary-container/50 relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary-fixed"></div>
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]" style="font-variation-settings: 'FILL' 1;">spa</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">New Flow</span>
+</div>
+<div class="flex flex-col gap-xs">
+{% for task in rescheduled_tasks %}
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface">{{ task.title }}</span>
+<span class="font-label-md text-label-md text-on-surface">{{ task.scheduled_time.strftime('%I:%M %p') if task.scheduled_time else '—' }}</span>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+{% else %}
+<div class="w-full fade-in-up stagger-3 mb-xl">
+<p class="font-body-md text-body-md text-on-surface-variant">No changes to show right now — your day is on track.</p>
+</div>
+{% endif %}
+
+<a href="{{ url_for('dashboard.home') }}" class="fade-in-up stagger-4 w-full block bg-primary-container text-on-primary-container font-label-md text-label-md py-4 rounded-full transition-all interactive-shadow hover:opacity-90">
+            Got it, thanks
+        </a>
+</main>
+</body></html>

@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from dotenv import load_dotenv
 
@@ -6,9 +7,17 @@ from app.extensions import db, migrate, login_manager
 
 load_dotenv()
 
+# frontend/ sits two levels up from this file (backend/app/__init__.py -> dayli/frontend)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
+
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        template_folder=os.path.join(FRONTEND_DIR, "templates"),
+        static_folder=os.path.join(FRONTEND_DIR, "static"),
+    )
     app.config.from_object(config_class)
 
     db.init_app(app)
@@ -16,7 +25,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
 
     with app.app_context():
-        from app import models  # noqa: F401 — registers tables with SQLAlchemy metadata
+        from app import models  # noqa: F401
 
     from app.auth.routes import auth_bp
     from app.onboarding.routes import onboarding_bp
