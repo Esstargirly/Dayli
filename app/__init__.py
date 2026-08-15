@@ -28,6 +28,11 @@ def create_app(config_class=Config):
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(ai_bp)
 
+    @app.route("/")
+    def index():
+        from flask import render_template
+        return render_template("welcome.html")
+
     @app.route("/health")
     def health():
         return {"status": "ok"}

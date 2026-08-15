@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dayli - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#d4e5c3",
+                        "on-secondary-fixed-variant": "#3c4b32",
+                        "background": "#fff9e9",
+                        "surface-dim": "#dfdaca",
+                        "surface": "#fff9e9",
+                        "on-secondary-container": "#58674c",
+                        "primary-fixed-dim": "#e1c559",
+                        "on-primary-fixed-variant": "#544600",
+                        "secondary-fixed": "#d7e8c6",
+                        "surface-container-high": "#eee8d8",
+                        "tertiary-fixed": "#faddc6",
+                        "outline-variant": "#cec6b1",
+                        "surface-tint": "#705d00",
+                        "inverse-on-surface": "#f6f0e1",
+                        "on-primary-fixed": "#221b00",
+                        "tertiary-fixed-dim": "#ddc2ac",
+                        "on-primary-container": "#715e00",
+                        "surface-container": "#f3eede",
+                        "on-surface": "#1d1c12",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#f6d96b",
+                        "secondary": "#546348",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#1d1c12",
+                        "surface-container-low": "#f9f3e3",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#e1c559",
+                        "surface-bright": "#fff9e9",
+                        "primary-fixed": "#ffe172",
+                        "on-tertiary-fixed-variant": "#564332",
+                        "tertiary": "#6f5a49",
+                        "on-surface-variant": "#4c4637",
+                        "on-tertiary-fixed": "#27180b",
+                        "surface-variant": "#e8e2d3",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#705b49",
+                        "primary": "#705d00",
+                        "tertiary-container": "#f2d5bf",
+                        "surface-container-highest": "#e8e2d3",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#333026",
+                        "secondary-fixed-dim": "#bbccab",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#121f0a",
+                        "outline": "#7d7765"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "card": "20px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "container-padding": "20px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "gutter": "16px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Be Vietnam Pro"],
+                        "label-md": ["Be Vietnam Pro"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "body-lg": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .card-shadow {
+            box-shadow: 0px 4px 12px rgba(74, 56, 40, 0.05);
+        }
+        .input-border {
+            border-color: rgba(74, 56, 40, 0.1);
+        }
+        .input-focus:focus {
+            border-color: #B8C9A8;
+            outline: none;
+            box-shadow: 0 0 0 1px #B8C9A8;
+        }
+        .custom-ring:focus {
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #B8C9A8;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex items-center justify-center p-container-padding font-body-md text-on-surface antialiased">
+<main class="w-full max-w-[440px]">
+<div class="bg-surface-container-lowest rounded-card card-shadow p-xl md:p-[48px] flex flex-col gap-lg w-full relative overflow-hidden">
+<header class="flex flex-col items-center gap-sm text-center mb-sm">
+<h1 class="font-display text-display text-primary tracking-tight">Dayli</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Welcome back.</p>
+</header>
+<form action="{{ url_for('auth.login') }}" class="flex flex-col gap-md" method="POST">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant ml-xs" for="email">Email</label>
+<input class="w-full bg-surface-container-lowest border input-border rounded-lg px-md py-3 font-body-md text-on-surface placeholder:text-on-surface-variant/50 input-focus transition-colors" id="email" name="email" placeholder="hello@example.com" required="" type="email"/>
+</div>
+<div class="flex flex-col gap-xs">
+<div class="flex justify-between items-center ml-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-secondary hover:text-secondary-fixed transition-colors" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border input-border rounded-lg px-md py-3 font-body-md text-on-surface placeholder:text-on-surface-variant/50 input-focus transition-colors pr-[48px]" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-on-surface transition-colors p-1 custom-ring rounded-full flex items-center justify-center" onclick="const p=document.getElementById('password'); p.type = p.type === 'password' ? 'text' : 'password'; this.querySelector('span').textContent = p.type === 'password' ? 'visibility_off' : 'visibility';" type="button">
+<span class="material-symbols-outlined" style="font-size: 20px;">visibility_off</span>
+</button>
+</div>
+</div>
+<button class="w-full mt-sm bg-primary-container text-on-primary-container font-label-md text-label-md rounded-full py-4 hover:opacity-90 active:scale-[0.98] transition-all custom-ring" type="submit">
+                    Log in
+                </button>
+</form>
+<p class="text-center font-body-md text-body-md text-on-surface-variant mt-sm">
+                Don't have an account? 
+                <a class="font-label-md text-label-md text-primary hover:text-primary-fixed-dim transition-colors ml-1" href="{{ url_for('auth.signup') }}">Sign up</a>
+</p>
+</div>
+</main>
+</body></html>
