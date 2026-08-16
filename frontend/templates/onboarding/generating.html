@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dayli - Creating your day</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffe172","outline": "#7d7765","on-tertiary": "#ffffff","surface": "#fff9e9",
+                        "primary": "#705d00","on-primary": "#ffffff","tertiary-fixed": "#faddc6","surface-dim": "#dfdaca",
+                        "on-tertiary-fixed": "#27180b","on-surface": "#1d1c12","on-surface-variant": "#4c4637",
+                        "inverse-surface": "#333026","secondary": "#546348","error-container": "#ffdad6","tertiary": "#6f5a49",
+                        "inverse-on-surface": "#f6f0e1","primary-fixed-dim": "#e1c559","surface-container-low": "#f9f3e3",
+                        "on-primary-container": "#715e00","surface-tint": "#705d00","on-secondary-container": "#58674c",
+                        "surface-container-highest": "#e8e2d3","on-tertiary-container": "#705b49",
+                        "on-secondary-fixed-variant": "#3c4b32","on-tertiary-fixed-variant": "#564332",
+                        "on-background": "#1d1c12","on-error": "#ffffff","surface-bright": "#fff9e9",
+                        "outline-variant": "#cec6b1","inverse-primary": "#e1c559","secondary-fixed-dim": "#bbccab",
+                        "background": "#fff9e9","primary-container": "#f6d96b","surface-container-high": "#eee8d8",
+                        "surface-container-lowest": "#ffffff","on-secondary": "#ffffff","on-primary-fixed-variant": "#544600",
+                        "surface-container": "#f3eede","tertiary-container": "#f2d5bf","on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ddc2ac","error": "#ba1a1a","secondary-container": "#d4e5c3",
+                        "on-primary-fixed": "#221b00","secondary-fixed": "#d7e8c6","on-secondary-fixed": "#121f0a",
+                        "surface-variant": "#e8e2d3"
+                    },
+                    "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+                    "spacing": {"container-padding": "20px","xs": "4px","lg": "24px","sm": "8px","gutter": "16px","xl": "32px","unit": "4px","md": "16px"},
+                    "fontFamily": {
+                        "label-md": ["Be Vietnam Pro"],"body-md": ["Be Vietnam Pro"],"body-lg": ["Be Vietnam Pro"],
+                        "label-sm": ["Be Vietnam Pro"],"headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],"headline-lg": ["Plus Jakarta Sans"],"display": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #FFF9E9; color: #1d1c12; -webkit-font-smoothing: antialiased; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { animation: spin 1.2s linear infinite; }
+        @keyframes softPulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        .pulse-text { animation: softPulse 2s ease-in-out infinite; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-container-padding text-center">
+
+<div class="w-16 h-16 rounded-full border-4 border-surface-container-high border-t-primary-container spinner mb-lg"></div>
+
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-sm">Creating your day...</h1>
+<p id="status-text" class="font-body-md text-body-md text-on-surface-variant pulse-text max-w-xs">Dayli is putting together a plan built around you.</p>
+
+<div id="error-box" class="hidden mt-lg max-w-xs">
+<p class="font-body-md text-body-md text-error mb-md" id="error-text"></p>
+<button onclick="generatePlan()" class="bg-primary-container text-on-primary-container font-label-md text-label-md px-lg py-sm rounded-full hover:opacity-90 transition-opacity">
+Try again
+</button>
+</div>
+
+<script>
+function generatePlan() {
+    document.getElementById('error-box').classList.add('hidden');
+    document.getElementById('status-text').classList.remove('hidden');
+    document.getElementById('status-text').textContent = "Dayli is putting together a plan built around you.";
+
+    fetch('/ai/generate-plan', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                showError(data.error);
+                return;
+            }
+            document.getElementById('status-text').textContent = "All set! Taking you to your day...";
+            setTimeout(() => {
+                window.location.href = data.redirect_url || '/dashboard/';
+            }, 600);
+        })
+        .catch(err => {
+            showError("Couldn't reach the server. Check your connection and try again.");
+        });
+}
+
+function showError(message) {
+    document.getElementById('status-text').classList.add('hidden');
+    document.getElementById('error-text').textContent = message;
+    document.getElementById('error-box').classList.remove('hidden');
+}
+
+generatePlan();
+</script>
+</body></html>
