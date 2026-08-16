@@ -24,7 +24,6 @@ def home():
     )
 
     if today_plan is None:
-        # No plan yet for today — send them to generate one.
         return redirect(url_for("onboarding.generating"))
 
     tasks_by_category = {"sleep": [], "movement": [], "hydration": [], "mental_wellbeing": []}
@@ -236,7 +235,11 @@ def edit_profile():
                         "I just updated my goals and preferences in my profile. Please adjust "
                         "today's remaining tasks so they better reflect what I care about now.",
                     )
-                    _apply_task_updates(today_plan, result.get("updated_tasks", []))
+                    _apply_task_updates(
+                        today_plan,
+                        result.get("updated_tasks", []),
+                        result.get("new_tasks", []),
+                    )
                     db.session.commit()
                 except Exception:
                     pass  # profile save still succeeds even if the AI re-plan fails

@@ -14,7 +14,7 @@ def get_client():
     return _client
 
 
-MODEL_NAME = "gemini-3.6-flash" 
+MODEL_NAME = "gemini-3.6-flash"
 
 # ---- Schema for a generated day plan ----
 PLAN_SCHEMA = {
@@ -68,8 +68,25 @@ ADJUSTMENT_SCHEMA = {
                 "required": ["task_id"],
             },
         },
+        "new_tasks": {
+            "type": "array",
+            "description": "Brand new tasks to add to today's plan, e.g. when the user mentions a new interest or activity that isn't reflected yet.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "title": {"type": "string"},
+                    "category": {
+                        "type": "string",
+                        "enum": ["sleep", "movement", "hydration", "mental_wellbeing"],
+                    },
+                    "scheduled_time": {"type": "string", "description": "24hr HH:MM"},
+                    "duration_minutes": {"type": "integer"},
+                },
+                "required": ["title", "category", "scheduled_time", "duration_minutes"],
+            },
+        },
     },
-    "required": ["message", "updated_tasks"],
+    "required": ["message", "updated_tasks", "new_tasks"],
 }
 
 
@@ -118,8 +135,9 @@ Rules:
 
 def adjust_plan(user, today_tasks, user_message, chat_history=None):
     """
-    Calls Gemini with the current plan + a user-reported disruption
-    (e.g. "I have a social event tonight") and gets back adjustments.
+    Calls Gemini with the current plan + a user-reported disruption or update
+    (e.g. "I have a social event tonight" or a profile edit) and gets back adjustments,
+    including brand new tasks if something genuinely new needs to be added.
     """
     tasks_context = [
         {
@@ -139,9 +157,11 @@ def adjust_plan(user, today_tasks, user_message, chat_history=None):
 
     prompt = f"""
 You are Dayli, a warm wellness assistant. The user is reporting something that's changed
-about their day. Adjust their existing plan around it — don't just cancel tasks, find a
-realistic way to fit them in differently, or shorten/reschedule them. Never make the user
-feel guilty about the disruption.
+about their day, or has updated their goals/preferences. Adjust their existing plan around
+it — don't just cancel tasks, find a realistic way to fit them in differently, or
+shorten/reschedule them. If the user mentions a new interest, goal, or activity that isn't
+reflected in today's existing tasks, add it as a new task via new_tasks rather than ignoring
+it. Never make the user feel guilty about the disruption.
 
 User profile struggles: {user.struggles}
 Today's current tasks: {json.dumps(tasks_context)}
@@ -151,8 +171,10 @@ Recent conversation:
 
 User just said: "{user_message}"
 
-Respond with a short, warm message explaining the change, and the specific task updates.
-Only include tasks that actually need to change in updated_tasks.
+Respond with a short, warm message explaining the change, the specific task updates, and
+any brand new tasks that should be added given what the user just said. Only include tasks
+that actually need to change in updated_tasks, and only add new_tasks if something genuinely
+new needs to be reflected in today's plan.
 """
     client = get_client()
     response = client.models.generate_content(

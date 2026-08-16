@@ -44,8 +44,9 @@ def _update_streak():
     current_user.last_active_date = today
 
 
-def _apply_task_updates(today_plan, updated_tasks_data):
-    """Applies Gemini's task adjustments onto real Task rows. Shared by chat() and profile edits."""
+def _apply_task_updates(today_plan, updated_tasks_data, new_tasks_data=None):
+    """Applies Gemini's task adjustments onto real Task rows, and creates any new tasks.
+    Shared by chat() and profile edits."""
     updated_task_summaries = []
     for update in updated_tasks_data:
         task = Task.query.get(update.get("task_id"))
@@ -72,6 +73,25 @@ def _apply_task_updates(today_plan, updated_tasks_data):
             "scheduled_time": task.scheduled_time.strftime("%H:%M") if task.scheduled_time else None,
             "duration_minutes": task.duration_minutes,
             "status": task.status,
+        })
+
+    for new_task_data in (new_tasks_data or []):
+        task = Task(
+            plan_id=today_plan.id,
+            title=new_task_data["title"],
+            category=new_task_data["category"],
+            scheduled_time=_parse_time(new_task_data.get("scheduled_time")),
+            duration_minutes=new_task_data.get("duration_minutes"),
+            xp_value=base_xp_for_category(new_task_data["category"]),
+        )
+        db.session.add(task)
+        updated_task_summaries.append({
+            "task_id": None,
+            "title": task.title,
+            "original_time": None,
+            "scheduled_time": new_task_data.get("scheduled_time"),
+            "duration_minutes": task.duration_minutes,
+            "status": "new",
         })
 
     today_plan.last_adjusted_at = datetime.utcnow()
@@ -150,7 +170,11 @@ def chat():
     except Exception as e:
         return jsonify({"error": f"Dayli couldn't process that right now: {e}"}), 502
 
-    updated_task_summaries = _apply_task_updates(today_plan, result.get("updated_tasks", []))
+    updated_task_summaries = _apply_task_updates(
+        today_plan,
+        result.get("updated_tasks", []),
+        result.get("new_tasks", []),
+    )
 
     ai_message = result.get("message", "")
     db.session.add(ChatLog(
