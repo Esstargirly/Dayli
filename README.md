@@ -6,6 +6,15 @@ A wellness plan that adapts to your life, instead of asking you to adapt your li
 
 Dayli is an AI wellness app. Most apps give you the same fixed routine every day and expect you to follow it no matter what happens in your life. Dayli does the opposite. It builds your day around your own goals, then if something changes, you just tell it, and it changes your plan for you.
 
+## Why use Dayli
+ 
+- **It fits your life, not the other way around.** Your plan changes when your day changes, instead of making you feel like you failed.
+- **It's built around your goals, not a generic list.** Every task connects to something you actually said you want.
+- **No guilt when things go wrong.** Missing a task or having a rough day doesn't reset your progress or make you feel bad. Dayli just adjusts.
+- **You can talk to it like a person.** No settings menus to dig through. Just tell Dayli what's going on and it handles the rest.
+- **It grows with you.** Update your goals any time, and your plan updates too.
+- **Small wins add up.** XP, streaks, and badges keep you motivated without turning wellness into a chore.
+
 ## How it works
 
 1. You sign up and answer a few questions about your goals, your habits, your schedule, and what usually makes you fall off track.
@@ -48,6 +57,11 @@ dayli/
 | `FLASK_SECRET_KEY` | A random secret key |
 | `DATABASE_URL` | Your Neon database link |
 | `GEMINI_API_KEY` | Your Gemini API key |
+
+## Team
+ 
+- **Jennifer** — came up with the idea for Dayli and how it should work, made the demo videos, and provided the Gemini API key we used.
+- **Esther** — built the entire technical side of the project. This includes the frontend, the backend, the database, and all the coding and implementation.
 
 ## Who made this
 
