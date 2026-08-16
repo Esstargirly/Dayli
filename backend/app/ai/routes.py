@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request, render_template
 from flask_login import login_required, current_user
 
 from app.extensions import db
-from app.models import Plan, Task, ChatLog
+from app.models import Plan, Task, ChatLog, XPEvent
 from app.xp_rules import base_xp_for_category, BONUS_XP
 from app.ai.gemini_client import generate_daily_plan, adjust_plan
 
@@ -42,6 +42,40 @@ def _update_streak():
 
     current_user.longest_streak = max(current_user.longest_streak, current_user.current_streak)
     current_user.last_active_date = today
+
+
+def _apply_task_updates(today_plan, updated_tasks_data):
+    """Applies Gemini's task adjustments onto real Task rows. Shared by chat() and profile edits."""
+    updated_task_summaries = []
+    for update in updated_tasks_data:
+        task = Task.query.get(update.get("task_id"))
+        if task is None or task.plan_id != today_plan.id:
+            continue
+
+        if update.get("new_scheduled_time"):
+            new_time = _parse_time(update["new_scheduled_time"])
+            if new_time and task.scheduled_time != new_time:
+                task.original_time = task.original_time or task.scheduled_time
+                task.scheduled_time = new_time
+                task.status = "rescheduled"
+
+        if update.get("new_duration_minutes"):
+            task.duration_minutes = update["new_duration_minutes"]
+
+        if update.get("new_status") in Task.STATUSES:
+            task.status = update["new_status"]
+
+        updated_task_summaries.append({
+            "task_id": task.id,
+            "title": task.title,
+            "original_time": task.original_time.strftime("%H:%M") if task.original_time else None,
+            "scheduled_time": task.scheduled_time.strftime("%H:%M") if task.scheduled_time else None,
+            "duration_minutes": task.duration_minutes,
+            "status": task.status,
+        })
+
+    today_plan.last_adjusted_at = datetime.utcnow()
+    return updated_task_summaries
 
 
 @ai_bp.route("/generate-plan", methods=["POST"])
@@ -116,36 +150,7 @@ def chat():
     except Exception as e:
         return jsonify({"error": f"Dayli couldn't process that right now: {e}"}), 502
 
-    # Apply updates onto real Task rows
-    updated_task_summaries = []
-    for update in result.get("updated_tasks", []):
-        task = Task.query.get(update.get("task_id"))
-        if task is None or task.plan_id != today_plan.id:
-            continue  # ignore anything that doesn't belong to this plan
-
-        if update.get("new_scheduled_time"):
-            new_time = _parse_time(update["new_scheduled_time"])
-            if new_time and task.scheduled_time != new_time:
-                task.original_time = task.original_time or task.scheduled_time
-                task.scheduled_time = new_time
-                task.status = "rescheduled"
-
-        if update.get("new_duration_minutes"):
-            task.duration_minutes = update["new_duration_minutes"]
-
-        if update.get("new_status") in Task.STATUSES:
-            task.status = update["new_status"]
-
-        updated_task_summaries.append({
-            "task_id": task.id,
-            "title": task.title,
-            "original_time": task.original_time.strftime("%H:%M") if task.original_time else None,
-            "scheduled_time": task.scheduled_time.strftime("%H:%M") if task.scheduled_time else None,
-            "duration_minutes": task.duration_minutes,
-            "status": task.status,
-        })
-
-    today_plan.last_adjusted_at = datetime.utcnow()
+    updated_task_summaries = _apply_task_updates(today_plan, result.get("updated_tasks", []))
 
     ai_message = result.get("message", "")
     db.session.add(ChatLog(

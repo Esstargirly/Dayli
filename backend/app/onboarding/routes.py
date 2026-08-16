@@ -42,13 +42,20 @@ def step(step_name):
         total_steps=len(STEPS),
     )
 
-
 def _save_step(step_name, form):
     if step_name == "goals":
-        current_user.goals = form.getlist("goals")
+        goals_list = form.getlist("goals")
+        other = form.get("goals_other", "").strip()
+        if other:
+            goals_list.append(other)
+        current_user.goals = goals_list
         current_user.target_habits = form.getlist("target_habits")
     elif step_name == "current_routine":
-        current_user.current_habits = form.getlist("current_habits")
+        habits_list = form.getlist("current_habits")
+        other = form.get("current_habits_other", "").strip()
+        if other:
+            habits_list.append(other)
+        current_user.current_habits = habits_list
         current_user.schedule = {
             "wake_time": form.get("wake_time", ""),
             "sleep_time": form.get("sleep_time", ""),
@@ -57,8 +64,11 @@ def _save_step(step_name, form):
         current_user.struggles = form.getlist("derailment")
         current_user.extra_notes = form.get("extra_notes", "").strip()
     elif step_name == "activities":
-        current_user.preferred_activities = form.getlist("preferred_activities")
-
+        activities_list = form.getlist("preferred_activities")
+        other = form.get("preferred_activities_other", "").strip()
+        if other:
+            activities_list.append(other)
+        current_user.preferred_activities = activities_list
 
 @onboarding_bp.route("/generating")
 @login_required

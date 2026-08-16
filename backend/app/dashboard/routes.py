@@ -1,10 +1,12 @@
 from datetime import date, datetime, timedelta
-from flask import Blueprint, render_template, redirect, url_for, jsonify
+from flask import Blueprint, render_template, redirect, url_for, jsonify, request, flash
 from flask_login import login_required, current_user
 
 from app.extensions import db
 from app.models import Plan, Task, XPEvent
 from app.xp_rules import BONUS_XP, level_for_xp
+from app.ai.gemini_client import adjust_plan
+from app.ai.routes import _apply_task_updates
 
 dashboard_bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
@@ -63,7 +65,6 @@ def home():
 def complete_task(task_id):
     task = Task.query.get_or_404(task_id)
 
-    # Make sure this task actually belongs to the logged-in user.
     if task.plan.user_id != current_user.id:
         return jsonify({"error": "not found"}), 404
 
@@ -81,7 +82,6 @@ def complete_task(task_id):
         reason="task_completed",
     ))
 
-    # Bonus: completed all tasks in today's plan
     all_tasks = task.plan.tasks
     if all(t.status == "completed" for t in all_tasks):
         bonus = BONUS_XP["full_day_complete"]
@@ -182,7 +182,66 @@ def updated():
 
     return render_template("dashboard/updated.html", rescheduled_tasks=rescheduled_tasks)
 
+
 @dashboard_bp.route("/profile")
 @login_required
 def profile():
     return render_template("dashboard/profile.html")
+
+
+@dashboard_bp.route("/profile/edit", methods=["GET", "POST"])
+@login_required
+def edit_profile():
+    if request.method == "POST":
+        goals_list = request.form.getlist("goals")
+        other_goal = request.form.get("goals_other", "").strip()
+        if other_goal:
+            goals_list.append(other_goal)
+        current_user.goals = goals_list
+
+        target_habits_text = request.form.get("target_habits", "").strip()
+        current_user.target_habits = [target_habits_text] if target_habits_text else []
+
+        habits_list = request.form.getlist("current_habits")
+        other_habit = request.form.get("current_habits_other", "").strip()
+        if other_habit:
+            habits_list.append(other_habit)
+        current_user.current_habits = habits_list
+
+        current_user.schedule = {
+            "wake_time": request.form.get("wake_time", ""),
+            "sleep_time": request.form.get("sleep_time", ""),
+        }
+
+        current_user.struggles = request.form.getlist("derailment")
+        current_user.extra_notes = request.form.get("extra_notes", "").strip()
+
+        activities_list = request.form.getlist("preferred_activities")
+        other_activity = request.form.get("preferred_activities_other", "").strip()
+        if other_activity:
+            activities_list.append(other_activity)
+        current_user.preferred_activities = activities_list
+
+        db.session.commit()
+
+        # Ask Dayli to reshape today's remaining tasks around the updated profile
+        today_plan = Plan.query.filter_by(user_id=current_user.id, plan_date=date.today()).first()
+        if today_plan:
+            pending_tasks = [t for t in today_plan.tasks if t.status != "completed"]
+            if pending_tasks:
+                try:
+                    result = adjust_plan(
+                        current_user,
+                        today_plan.tasks,
+                        "I just updated my goals and preferences in my profile. Please adjust "
+                        "today's remaining tasks so they better reflect what I care about now.",
+                    )
+                    _apply_task_updates(today_plan, result.get("updated_tasks", []))
+                    db.session.commit()
+                except Exception:
+                    pass  # profile save still succeeds even if the AI re-plan fails
+
+        flash("Profile updated — I've refreshed today's plan to match.", "info")
+        return redirect(url_for("dashboard.profile"))
+
+    return render_template("dashboard/edit_profile.html")

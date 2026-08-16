@@ -77,7 +77,9 @@ def generate_daily_plan(user):
     """Calls Gemini to generate a fresh day plan based on the user's onboarding profile."""
     prompt = f"""
 You are Dayli, a warm and encouraging wellness assistant. Create a realistic, personalized
-day plan for this user. Do not overload their day — respect their available time and energy.
+day plan for this user that is built AROUND THEIR SPECIFIC GOALS AND PREFERRED ACTIVITIES —
+not a generic wellness routine. Every task should clearly connect to something this person
+actually said they want.
 
 User profile:
 - Goals: {user.goals}
@@ -88,8 +90,19 @@ User profile:
 - Preferred activities: {user.preferred_activities}
 - Additional notes from the user: {user.extra_notes}
 
-Generate a balanced set of tasks covering sleep, movement, hydration, and mental wellbeing
-where relevant to their goals. Keep the tone warm and non-clinical in the summary.
+Rules:
+1. Prioritize the user's preferred_activities and goals above generic filler tasks. If they
+   said "gym", give a specific gym task (e.g. "Push day: chest & triceps"), not a vague
+   "movement" task.
+2. Task titles must be specific and personal, referencing what THIS user cares about — avoid
+   generic titles like "Drink water" or "Meditate" unless the user actually listed that
+   activity or goal.
+3. You do not need to include all four categories (sleep, movement, hydration,
+   mental_wellbeing) every day — only include categories that genuinely make sense given
+   what this person said. Relevance matters more than covering every category.
+4. Respect their available time and energy from their schedule and struggles — don't
+   overload the day.
+5. Keep the summary warm and specific to their actual goals, not generic wellness language.
 """
     client = get_client()
     response = client.models.generate_content(

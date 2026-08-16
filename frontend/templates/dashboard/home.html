@@ -197,42 +197,24 @@
 <section class="mb-xl">
 <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface font-bold mb-md">Today's Focus</h2>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+{% set category_meta = {
+    "sleep": {"label": "Sleep", "icon": "bedtime", "bg": "bg-surface-container-low", "text": "text-tertiary"},
+    "movement": {"label": "Movement", "icon": "directions_run", "bg": "bg-secondary-container", "text": "text-on-secondary-container"},
+    "hydration": {"label": "Water Intake", "icon": "water_drop", "bg": "bg-surface-container-low", "text": "text-primary"},
+    "mental_wellbeing": {"label": "Wellbeing", "icon": "self_improvement", "bg": "bg-primary-container", "text": "text-on-primary-container"}
+} %}
+{% for category, tasks in tasks_by_category.items() if tasks %}
 <div class="bg-surface-container-lowest rounded-lg p-5 shadow-[0px_4px_12px_rgba(74,56,40,0.05)] hover:shadow-[0px_6px_16px_rgba(74,56,40,0.08)] transition-shadow border border-transparent hover:border-surface-container flex flex-col justify-between aspect-square">
-<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-tertiary mb-3">
-<span class="material-symbols-outlined fill">bedtime</span>
+<div class="w-10 h-10 rounded-full {{ category_meta[category].bg }} flex items-center justify-center {{ category_meta[category].text }} mb-3">
+<span class="material-symbols-outlined fill">{{ category_meta[category].icon }}</span>
 </div>
 <div>
-<h3 class="font-label-sm text-label-sm text-outline mb-1">Sleep</h3>
-<p class="font-label-md text-label-md text-on-surface font-semibold">{{ category_stats.sleep.completed }} of {{ category_stats.sleep.total }} done</p>
+<h3 class="font-label-sm text-label-sm text-outline mb-1">{{ category_meta[category].label }}</h3>
+<p class="font-label-md text-label-md text-on-surface font-semibold leading-snug">{{ tasks[0].title }}</p>
+<p class="font-label-sm text-label-sm text-outline mt-1">{{ category_stats[category].completed }} of {{ category_stats[category].total }} done</p>
 </div>
 </div>
-<div class="bg-surface-container-lowest rounded-lg p-5 shadow-[0px_4px_12px_rgba(74,56,40,0.05)] hover:shadow-[0px_6px_16px_rgba(74,56,40,0.08)] transition-shadow border border-transparent hover:border-surface-container flex flex-col justify-between aspect-square">
-<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-3">
-<span class="material-symbols-outlined fill">directions_run</span>
-</div>
-<div>
-<h3 class="font-label-sm text-label-sm text-outline mb-1">Movement</h3>
-<p class="font-label-md text-label-md text-on-surface font-semibold">{{ category_stats.movement.completed }} of {{ category_stats.movement.total }} done</p>
-</div>
-</div>
-<div class="bg-surface-container-lowest rounded-lg p-5 shadow-[0px_4px_12px_rgba(74,56,40,0.05)] hover:shadow-[0px_6px_16px_rgba(74,56,40,0.08)] transition-shadow border border-transparent hover:border-surface-container flex flex-col justify-between aspect-square">
-<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary mb-3">
-<span class="material-symbols-outlined fill">water_drop</span>
-</div>
-<div>
-<h3 class="font-label-sm text-label-sm text-outline mb-1">Hydration</h3>
-<p class="font-label-md text-label-md text-on-surface font-semibold">{{ category_stats.hydration.completed }} of {{ category_stats.hydration.total }} done</p>
-</div>
-</div>
-<div class="bg-surface-container-lowest rounded-lg p-5 shadow-[0px_4px_12px_rgba(74,56,40,0.05)] hover:shadow-[0px_6px_16px_rgba(74,56,40,0.08)] transition-shadow border border-transparent hover:border-surface-container flex flex-col justify-between aspect-square">
-<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container mb-3">
-<span class="material-symbols-outlined fill">self_improvement</span>
-</div>
-<div>
-<h3 class="font-label-sm text-label-sm text-outline mb-1">Wellbeing</h3>
-<p class="font-label-md text-label-md text-on-surface font-semibold">{{ category_stats.mental_wellbeing.completed }} of {{ category_stats.mental_wellbeing.total }} done</p>
-</div>
-</div>
+{% endfor %}
 </div>
 </section>
 
@@ -293,7 +275,7 @@
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('ai.chat_page') }}">
 <span class="material-symbols-outlined">smart_toy</span>
-<span class="font-label-sm text-[10px] mt-1">Chat</span>
+<span class="font-label-sm text-[10px] mt-1">AI Chat</span>
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.profile') }}">
 <span class="material-symbols-outlined">person</span>

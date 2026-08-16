@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dayli - Edit Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#ffe172","outline": "#7d7765","on-tertiary": "#ffffff","surface": "#fff9e9",
+                      "primary": "#705d00","on-primary": "#ffffff","tertiary-fixed": "#faddc6","surface-dim": "#dfdaca",
+                      "on-tertiary-fixed": "#27180b","on-surface": "#1d1c12","on-surface-variant": "#4c4637",
+                      "inverse-surface": "#333026","secondary": "#546348","error-container": "#ffdad6","tertiary": "#6f5a49",
+                      "inverse-on-surface": "#f6f0e1","primary-fixed-dim": "#e1c559","surface-container-low": "#f9f3e3",
+                      "on-primary-container": "#715e00","surface-tint": "#705d00","on-secondary-container": "#58674c",
+                      "surface-container-highest": "#e8e2d3","on-tertiary-container": "#705b49",
+                      "on-secondary-fixed-variant": "#3c4b32","on-tertiary-fixed-variant": "#564332",
+                      "on-background": "#1d1c12","on-error": "#ffffff","surface-bright": "#fff9e9",
+                      "outline-variant": "#cec6b1","inverse-primary": "#e1c559","secondary-fixed-dim": "#bbccab",
+                      "background": "#fff9e9","primary-container": "#f6d96b","surface-container-high": "#eee8d8",
+                      "surface-container-lowest": "#ffffff","on-secondary": "#ffffff","on-primary-fixed-variant": "#544600",
+                      "surface-container": "#f3eede","tertiary-container": "#f2d5bf","on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#ddc2ac","error": "#ba1a1a","secondary-container": "#d4e5c3",
+                      "on-primary-fixed": "#221b00","secondary-fixed": "#d7e8c6","on-secondary-fixed": "#121f0a",
+                      "surface-variant": "#e8e2d3"
+              },
+              "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+              "spacing": {"container-padding": "20px","xs": "4px","lg": "24px","sm": "8px","gutter": "16px","xl": "32px","unit": "4px","md": "16px"},
+              "fontFamily": {
+                      "label-md": ["Be Vietnam Pro"],"body-md": ["Be Vietnam Pro"],"body-lg": ["Be Vietnam Pro"],
+                      "label-sm": ["Be Vietnam Pro"],"headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],"headline-lg": ["Plus Jakarta Sans"],"display": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                      "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body { background-color: #FFF9E9; color: #1d1c12; -webkit-font-smoothing: antialiased; }
+        .soft-shadow { box-shadow: 0px 4px 12px rgba(74, 56, 40, 0.05); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-24">
+
+<header class="sticky top-0 z-40 bg-surface shadow-sm flex justify-between items-center px-container-padding w-full h-16">
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Edit Profile</h1>
+<a href="{{ url_for('dashboard.profile') }}" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">close</span>
+</a>
+</header>
+
+<main class="max-w-xl mx-auto w-full px-container-padding pt-lg">
+<form method="POST" action="{{ url_for('dashboard.edit_profile') }}" class="flex flex-col gap-lg">
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-container-padding">
+<h2 class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-md">Goals</h2>
+<div class="flex flex-col gap-sm">
+{% for value, text in [("better_sleep","Better sleep"),("more_energy","More energy through the day"),("move_more","Move my body more"),("mental_clarity","Feel calmer and more focused")] %}
+<label class="flex items-center p-3 border border-outline-variant/30 rounded-lg cursor-pointer hover:bg-surface-container-low">
+<input type="checkbox" name="goals" value="{{ value }}" class="w-5 h-5 mr-3 accent-secondary" {% if value in current_user.goals %}checked{% endif %}/>
+<span class="font-body-md text-body-md text-on-surface">{{ text }}</span>
+</label>
+{% endfor %}
+</div>
+<input name="goals_other" type="text" class="w-full mt-sm bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-md py-sm font-body-md text-body-md" placeholder="Other goal not listed above?"/>
+</section>
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-container-padding">
+<h2 class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-md">Habits you want to build</h2>
+<textarea name="target_habits" class="w-full border border-outline-variant/30 rounded-lg p-4 font-body-md text-body-md resize-none h-20" placeholder="e.g. drink more water, stretch every morning">{{ current_user.target_habits[0] if current_user.target_habits else '' }}</textarea>
+</section>
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-container-padding">
+<h2 class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-md">Current Habits</h2>
+<div class="flex flex-col gap-sm">
+{% for value, text in [("exercise","I already exercise sometimes"),("meditate","I meditate or journal occasionally"),("track_water","I keep track of my water intake"),("none","None of these yet")] %}
+<label class="flex items-center p-3 border border-outline-variant/30 rounded-lg cursor-pointer hover:bg-surface-container-low">
+<input type="checkbox" name="current_habits" value="{{ value }}" class="w-5 h-5 mr-3 accent-secondary" {% if value in current_user.current_habits %}checked{% endif %}/>
+<span class="font-body-md text-body-md text-on-surface">{{ text }}</span>
+</label>
+{% endfor %}
+</div>
+<input name="current_habits_other" type="text" class="w-full mt-sm bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-md py-sm font-body-md text-body-md" placeholder="Something else you already do?"/>
+</section>
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-container-padding">
+<h2 class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-md">Your Schedule</h2>
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-tertiary">Wake time</label>
+<input type="time" name="wake_time" value="{{ current_user.schedule.get('wake_time','07:00') if current_user.schedule else '07:00' }}" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-md py-sm font-body-md text-body-md"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-tertiary">Bedtime</label>
+<input type="time" name="sleep_time" value="{{ current_user.schedule.get('sleep_time','22:30') if current_user.schedule else '22:30' }}" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-md py-sm font-body-md text-body-md"/>
+</div>
+</div>
+</section>
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-container-padding">
+<h2 class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-md">What Derails You</h2>
+<div class="flex flex-col gap-sm">
+{% for value, text in [("time","Not enough time"),("energy","Too tired after work"),("forget","I just forget"),("overwhelmed","Feeling overwhelmed")] %}
+<label class="flex items-center p-3 border border-outline-variant/30 rounded-lg cursor-pointer hover:bg-surface-container-low">
+<input type="checkbox" name="derailment" value="{{ value }}" class="w-5 h-5 mr-3 accent-secondary" {% if value in current_user.struggles %}checked{% endif %}/>
+<span class="font-body-md text-body-md text-on-surface">{{ text }}</span>
+</label>
+{% endfor %}
+</div>
+<textarea name="extra_notes" class="w-full mt-sm border border-outline-variant/30 rounded-lg p-4 font-body-md text-body-md resize-none h-20" placeholder="Anything else Dayli should know?">{{ current_user.extra_notes or '' }}</textarea>
+</section>
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-container-padding">
+<h2 class="font-label-md text-label-md text-tertiary uppercase tracking-wider mb-md">Preferred Activities</h2>
+<div class="flex flex-col gap-sm">
+{% for value, text in [("gym","Gym / strength training"),("walking","Walking"),("meditation","Meditation"),("better_sleep_routine","A better sleep routine"),("journaling","Journaling")] %}
+<label class="flex items-center p-3 border border-outline-variant/30 rounded-lg cursor-pointer hover:bg-surface-container-low">
+<input type="checkbox" name="preferred_activities" value="{{ value }}" class="w-5 h-5 mr-3 accent-secondary" {% if value in current_user.preferred_activities %}checked{% endif %}/>
+<span class="font-body-md text-body-md text-on-surface">{{ text }}</span>
+</label>
+{% endfor %}
+</div>
+<input name="preferred_activities_other" type="text" class="w-full mt-sm bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-md py-sm font-body-md text-body-md" placeholder="Something else you enjoy?"/>
+</section>
+
+<button type="submit" class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-4 rounded-full hover:opacity-90 transition-opacity">
+Save changes
+</button>
+
+</form>
+</main>
+</body></html>
