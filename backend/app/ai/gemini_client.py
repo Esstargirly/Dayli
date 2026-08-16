@@ -14,8 +14,7 @@ def get_client():
     return _client
 
 
-MODEL_NAME = "gemini-2.5-flash"  # fast + cheap, good fit for a hackathon demo
-
+MODEL_NAME = "gemini-3.6-flash" 
 
 # ---- Schema for a generated day plan ----
 PLAN_SCHEMA = {
