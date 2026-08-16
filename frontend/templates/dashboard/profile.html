@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dayli - Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#ffe172","outline": "#7d7765","on-tertiary": "#ffffff","surface": "#fff9e9",
+                      "primary": "#705d00","on-primary": "#ffffff","tertiary-fixed": "#faddc6","surface-dim": "#dfdaca",
+                      "on-tertiary-fixed": "#27180b","on-surface": "#1d1c12","on-surface-variant": "#4c4637",
+                      "inverse-surface": "#333026","secondary": "#546348","error-container": "#ffdad6","tertiary": "#6f5a49",
+                      "inverse-on-surface": "#f6f0e1","primary-fixed-dim": "#e1c559","surface-container-low": "#f9f3e3",
+                      "on-primary-container": "#715e00","surface-tint": "#705d00","on-secondary-container": "#58674c",
+                      "surface-container-highest": "#e8e2d3","on-tertiary-container": "#705b49",
+                      "on-secondary-fixed-variant": "#3c4b32","on-tertiary-fixed-variant": "#564332",
+                      "on-background": "#1d1c12","on-error": "#ffffff","surface-bright": "#fff9e9",
+                      "outline-variant": "#cec6b1","inverse-primary": "#e1c559","secondary-fixed-dim": "#bbccab",
+                      "background": "#fff9e9","primary-container": "#f6d96b","surface-container-high": "#eee8d8",
+                      "surface-container-lowest": "#ffffff","on-secondary": "#ffffff","on-primary-fixed-variant": "#544600",
+                      "surface-container": "#f3eede","tertiary-container": "#f2d5bf","on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#ddc2ac","error": "#ba1a1a","secondary-container": "#d4e5c3",
+                      "on-primary-fixed": "#221b00","secondary-fixed": "#d7e8c6","on-secondary-fixed": "#121f0a",
+                      "surface-variant": "#e8e2d3"
+              },
+              "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+              "spacing": {"container-padding": "20px","xs": "4px","lg": "24px","sm": "8px","gutter": "16px","xl": "32px","unit": "4px","md": "16px"},
+              "fontFamily": {
+                      "label-md": ["Be Vietnam Pro"],"body-md": ["Be Vietnam Pro"],"body-lg": ["Be Vietnam Pro"],
+                      "label-sm": ["Be Vietnam Pro"],"headline-lg-mobile": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],"headline-lg": ["Plus Jakarta Sans"],"display": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                      "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                      "display": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body { background-color: #FFF9E9; color: #1d1c12; -webkit-font-smoothing: antialiased; }
+        .soft-shadow { box-shadow: 0px 4px 12px rgba(74, 56, 40, 0.05); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col pb-24 md:pb-0">
+
+<header class="md:hidden sticky top-0 z-40 bg-surface shadow-sm flex justify-between items-center px-container-padding w-full h-16">
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Profile</h1>
+<a href="{{ url_for('dashboard.home') }}" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">close</span>
+</a>
+</header>
+
+<nav class="hidden md:flex justify-between items-center px-xl py-md bg-surface shadow-sm sticky top-0 z-50">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-label-md font-bold">{{ current_user.name[0]|upper }}</div>
+<h1 class="font-headline-md text-headline-md text-primary">Dayli</h1>
+</div>
+<div class="flex gap-lg">
+<a class="flex items-center gap-xs text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-full" href="{{ url_for('dashboard.home') }}">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-xs text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-full" href="{{ url_for('ai.chat_page') }}">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-label-md text-label-md">AI Chat</span>
+</a>
+<a class="flex items-center gap-xs text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-2 rounded-full" href="{{ url_for('dashboard.progress') }}">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-md text-label-md">Progress</span>
+</a>
+<a class="flex items-center gap-xs bg-primary-container text-on-primary-container font-bold px-4 py-2 rounded-full shadow-[0px_4px_12px_rgba(74,56,40,0.05)]" href="{{ url_for('dashboard.profile') }}">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</div>
+</nav>
+
+<main class="flex-1 px-container-padding pt-6 md:pt-10 max-w-2xl mx-auto w-full">
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-xl flex flex-col items-center text-center mb-lg">
+<div class="w-20 h-20 rounded-full bg-primary-container flex items-center justify-center font-headline-lg text-headline-lg text-on-primary-container font-bold mb-md">
+{{ current_user.name[0]|upper }}
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold mb-xs">{{ current_user.name }}</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">{{ current_user.email }}</p>
+<p class="font-label-sm text-label-sm text-outline mt-sm">Member since {{ current_user.created_at.strftime('%B %Y') }}</p>
+</section>
+
+<section class="grid grid-cols-3 gap-md mb-lg">
+<div class="bg-surface-container-lowest rounded-xl soft-shadow p-md flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-primary text-[28px] mb-xs fill">star</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">{{ current_user.xp_total }}</span>
+<span class="font-label-sm text-label-sm text-outline">Total XP</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl soft-shadow p-md flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-[#f6d96b] text-[28px] mb-xs fill">local_fire_department</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">{{ current_user.current_streak }}</span>
+<span class="font-label-sm text-label-sm text-outline">Day Streak</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl soft-shadow p-md flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-secondary text-[28px] mb-xs fill">military_tech</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">{{ current_user.longest_streak }}</span>
+<span class="font-label-sm text-label-sm text-outline">Best Streak</span>
+</div>
+</section>
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow p-container-padding mb-lg">
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold mb-md">Your Wellness Profile</h3>
+
+{% if current_user.goals %}
+<div class="mb-md">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block mb-xs">Goals</span>
+<div class="flex flex-wrap gap-xs">
+{% for goal in current_user.goals %}
+<span class="bg-primary-container/40 text-on-primary-container font-label-sm text-label-sm px-sm py-xs rounded-full">{{ goal.replace('_', ' ')|title }}</span>
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+{% if current_user.preferred_activities %}
+<div class="mb-md">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block mb-xs">Preferred Activities</span>
+<div class="flex flex-wrap gap-xs">
+{% for activity in current_user.preferred_activities %}
+<span class="bg-secondary-container/50 text-on-secondary-container font-label-sm text-label-sm px-sm py-xs rounded-full">{{ activity.replace('_', ' ')|title }}</span>
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+{% if current_user.struggles %}
+<div class="mb-md">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block mb-xs">What Derails You</span>
+<div class="flex flex-wrap gap-xs">
+{% for struggle in current_user.struggles %}
+<span class="bg-tertiary-container/50 text-on-tertiary-container font-label-sm text-label-sm px-sm py-xs rounded-full">{{ struggle.replace('_', ' ')|title }}</span>
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+{% if current_user.schedule and current_user.schedule.get('wake_time') %}
+<div class="flex justify-between items-center py-sm border-t border-surface-container-highest">
+<span class="font-body-md text-body-md text-on-surface-variant">Usual wake time</span>
+<span class="font-label-md text-label-md text-on-surface">{{ current_user.schedule.wake_time }}</span>
+</div>
+<div class="flex justify-between items-center py-sm border-t border-surface-container-highest">
+<span class="font-body-md text-body-md text-on-surface-variant">Usual bedtime</span>
+<span class="font-label-md text-label-md text-on-surface">{{ current_user.schedule.sleep_time }}</span>
+</div>
+{% endif %}
+
+{% if not current_user.goals and not current_user.preferred_activities and not current_user.struggles %}
+<p class="font-body-md text-body-md text-on-surface-variant">Complete onboarding to see your wellness profile here.</p>
+{% endif %}
+</section>
+
+<section class="bg-surface-container-lowest rounded-xl soft-shadow overflow-hidden mb-lg">
+<button class="w-full flex items-center justify-between px-container-padding py-md hover:bg-surface-container-low transition-colors border-b border-surface-container-highest">
+<span class="font-body-md text-body-md text-on-surface">Edit profile</span>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between px-container-padding py-md hover:bg-surface-container-low transition-colors">
+<span class="font-body-md text-body-md text-on-surface">Notifications</span>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</button>
+</section>
+
+<a href="{{ url_for('auth.logout') }}" class="block w-full text-center bg-surface-container-lowest soft-shadow text-error font-label-md text-label-md py-md rounded-full hover:bg-error-container/30 transition-colors mb-xl">
+Log out
+</a>
+
+</main>
+
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-sm bg-surface shadow-[0px_-4px_12px_rgba(74,56,40,0.05)] rounded-t-xl h-16">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.home') }}">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('ai.chat_page') }}">
+<span class="material-symbols-outlined mb-1">smart_toy</span>
+<span class="font-label-sm text-[10px]">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.progress') }}">
+<span class="material-symbols-outlined mb-1">military_tech</span>
+<span class="font-label-sm text-[10px]">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-opacity" href="{{ url_for('dashboard.profile') }}">
+<span class="material-symbols-outlined mb-1 fill">person</span>
+<span class="font-label-sm text-[10px] font-semibold">Profile</span>
+</a>
+</nav>
+</body></html>

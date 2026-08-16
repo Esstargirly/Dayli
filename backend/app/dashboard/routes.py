@@ -181,3 +181,8 @@ def updated():
     rescheduled_tasks.sort(key=lambda t: t.scheduled_time or t.original_time)
 
     return render_template("dashboard/updated.html", rescheduled_tasks=rescheduled_tasks)
+
+@dashboard_bp.route("/profile")
+@login_required
+def profile():
+    return render_template("dashboard/profile.html")

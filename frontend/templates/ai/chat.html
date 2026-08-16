@@ -71,14 +71,14 @@
 <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center font-label-md text-label-md text-on-primary-container font-bold shrink-0">
 D
 </div>
-<h1 class="font-headline-md text-headline-md text-primary tracking-tight">Talk to Dayli</h1>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tight">AI Assistant</h1>
 </div>
 <a href="{{ url_for('dashboard.home') }}" aria-label="Back to dashboard" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors active:scale-95 duration-150">
 <span class="material-symbols-outlined">close</span>
 </a>
 </header>
 
-<main class="flex-1 overflow-y-auto chat-scroll px-container-padding py-lg pb-[120px] flex flex-col gap-lg relative z-10">
+<main class="flex-1 overflow-y-auto chat-scroll px-container-padding py-lg pb-[180px] md:pb-[120px] flex flex-col gap-lg relative z-10">
 <div id="chat-log" class="flex flex-col gap-md max-w-2xl mx-auto w-full z-10 mt-md">
 <div class="flex items-center justify-center mb-md">
 <span class="font-label-sm text-label-sm text-outline-variant bg-surface-container-low px-sm py-xs rounded-full">Today</span>
@@ -113,7 +113,7 @@ Hi! I'm Dayli. If anything changes with your day, just tell me here and I'll adj
 </div>
 </main>
 
-<div id="input-bar" class="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-md px-container-padding py-sm z-30 border-t border-surface-container-highest">
+<div id="input-bar" class="fixed bottom-16 md:bottom-0 left-0 w-full bg-surface/90 backdrop-blur-md px-container-padding py-sm z-30 border-t border-surface-container-highest">
 <div class="max-w-2xl mx-auto flex items-end gap-sm relative">
 <div class="flex-1 relative">
 <textarea id="chat-input" class="w-full bg-surface-container-lowest border-outline/10 text-on-surface font-body-md text-body-md rounded-xl px-md py-sm pr-[50px] focus:border-secondary focus:ring-1 focus:ring-secondary transition-all shadow-[0px_4px_12px_rgba(74,56,40,0.05)] resize-none" placeholder="Tell Dayli what's going on..." rows="1" style="min-height: 48px; max-height: 120px;"></textarea>
@@ -245,4 +245,22 @@ chatInput.addEventListener('keydown', function(e) {
 
 chatLog.scrollIntoView({ behavior: 'auto', block: 'end' });
 </script>
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-40 flex justify-around items-center px-gutter py-sm bg-surface shadow-[0px_-4px_12px_rgba(74,56,40,0.05)] rounded-t-xl h-16">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.home') }}">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-opacity" href="{{ url_for('ai.chat_page') }}">
+<span class="material-symbols-outlined mb-1 fill">smart_toy</span>
+<span class="font-label-sm text-[10px] font-semibold">AI Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.progress') }}">
+<span class="material-symbols-outlined mb-1">military_tech</span>
+<span class="font-label-sm text-[10px]">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.profile') }}">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-sm text-[10px]">Profile</span>
+</a>
+</nav>
 </body></html>

@@ -154,15 +154,15 @@
 <span class="material-symbols-outlined fill">home</span>
                 Home
             </a>
-<a class="flex items-center gap-4 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
-<span class="material-symbols-outlined">spa</span>
-                Wellness
+<a class="flex items-center gap-4 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="{{ url_for('dashboard.progress') }}">
+<span class="material-symbols-outlined">military_tech</span>
+                Progress
             </a>
 <a class="flex items-center gap-4 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="{{ url_for('ai.chat_page') }}">
 <span class="material-symbols-outlined">smart_toy</span>
                 AI Chat
             </a>
-<a class="flex items-center gap-4 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="#">
+<a class="flex items-center gap-4 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md" href="{{ url_for('dashboard.profile') }}">
 <span class="material-symbols-outlined">person</span>
                 Profile
             </a>
@@ -287,15 +287,15 @@
 <span class="material-symbols-outlined fill">home</span>
 <span class="font-label-sm text-[10px] mt-1 font-semibold">Home</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="#">
-<span class="material-symbols-outlined">spa</span>
-<span class="font-label-sm text-[10px] mt-1">Wellness</span>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.progress') }}">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="font-label-sm text-[10px] mt-1">Progress</span>
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('ai.chat_page') }}">
 <span class="material-symbols-outlined">smart_toy</span>
 <span class="font-label-sm text-[10px] mt-1">AI Chat</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:opacity-80 transition-opacity" href="{{ url_for('dashboard.profile') }}">
 <span class="material-symbols-outlined">person</span>
 <span class="font-label-sm text-[10px] mt-1">Profile</span>
 </a>
