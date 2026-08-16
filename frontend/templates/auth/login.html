@@ -130,7 +130,7 @@
 <form action="{{ url_for('auth.login') }}" class="flex flex-col gap-md" method="POST">
 <div class="flex flex-col gap-xs">
 <label class="font-label-md text-label-md text-on-surface-variant ml-xs" for="email">Email</label>
-<input class="w-full bg-surface-container-lowest border input-border rounded-lg px-md py-3 font-body-md text-on-surface placeholder:text-on-surface-variant/50 input-focus transition-colors" id="email" name="email" placeholder="hello@example.com" required="" type="email"/>
+<input class="w-full bg-surface-container-lowest border input-border rounded-lg px-md py-3 font-body-md text-on-surface placeholder:text-on-surface-variant/50 input-focus transition-colors" id="email" name="email" placeholder="Enter your email" required="" type="email"/>
 </div>
 <div class="flex flex-col gap-xs">
 <div class="flex justify-between items-center ml-xs">
@@ -138,7 +138,7 @@
 <a class="font-label-sm text-label-sm text-secondary hover:text-secondary-fixed transition-colors" href="#">Forgot password?</a>
 </div>
 <div class="relative">
-<input class="w-full bg-surface-container-lowest border input-border rounded-lg px-md py-3 font-body-md text-on-surface placeholder:text-on-surface-variant/50 input-focus transition-colors pr-[48px]" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<input class="w-full bg-surface-container-lowest border input-border rounded-lg px-md py-3 font-body-md text-on-surface placeholder:text-on-surface-variant/50 input-focus transition-colors pr-[48px]" id="password" name="password" placeholder="Enter your password" required="" type="password"/>
 <button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant/50 hover:text-on-surface transition-colors p-1 custom-ring rounded-full flex items-center justify-center" onclick="const p=document.getElementById('password'); p.type = p.type === 'password' ? 'text' : 'password'; this.querySelector('span').textContent = p.type === 'password' ? 'visibility_off' : 'visibility';" type="button">
 <span class="material-symbols-outlined" style="font-size: 20px;">visibility_off</span>
 </button>
